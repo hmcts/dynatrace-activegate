@@ -177,7 +177,7 @@ variable "apim_appgw_max_capacity" {
 }
 
 variable "name" {
-  type = string
+  type    = string
   default = "activegate"
 }
 
@@ -274,7 +274,7 @@ variable "component" {}
 
 variable "publisher" {
   default = "Canonical"
-} 
+}
 
 variable "offer" {
   default = "UbuntuServer"
