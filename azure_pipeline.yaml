@@ -1,8 +1,8 @@
 # Docs:
 # https://aka.ms/yaml
 
-trigger:
-  batch: true
+# trigger:
+  # batch: true
   # branches:
   #   include:
   #   - master
