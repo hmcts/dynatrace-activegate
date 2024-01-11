@@ -6,6 +6,7 @@ terraform {
     azurerm = {
       source  = "hashicorp/azurerm"
       version = "3.76.0"
+      configuration_aliases = [azurerm.law, azurerm.soc]
     }
   }
 }

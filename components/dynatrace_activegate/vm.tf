@@ -4,12 +4,6 @@ locals {
   adminuser   = "azureuser"
 }
 
-data "azurerm_subnet" "iaas" {
-  name                 = "iaas"
-  resource_group_name  = var.resource_group_name
-  virtual_network_name = var.vnet_name
-}
-
 data "azurerm_key_vault" "subscription_vault" {
   name                = var.vault_name
   resource_group_name = var.vault_rg
@@ -32,7 +26,7 @@ data "azurerm_storage_account" "dynatrace_plugin_storage" {
 
 
 data "template_file" "cloudconfig" {
-  template = file("${path.module}/${var.config_file_name}.tpl")
+  template = file("${path.module}/cloudconfig.tpl")
 
   vars = {
     paas_token               = data.azurerm_key_vault_secret.dynatrace_paas_token.value
@@ -52,6 +46,30 @@ data "template_cloudinit_config" "config" {
   part {
     content_type = "text/cloud-config"
     content      = data.template_file.cloudconfig.rendered
+  }
+}
+
+data "template_file" "private_cloudconfig" {
+  template = file("${path.module}/cloudconfig-private.tpl")
+
+  vars = {
+    paas_token               = data.azurerm_key_vault_secret.dynatrace_paas_token.value
+    dynatrace_instance_name  = var.dynatrace_instance_name
+    network_zone             = var.network_zone
+    plugin_storage_account   = data.azurerm_storage_account.dynatrace_plugin_storage.name
+    plugin_storage_container = var.storage_container
+    plugin_storage_key       = data.azurerm_storage_account.dynatrace_plugin_storage.primary_access_key
+    dynatrace_plugins        = join(" ", var.dynatrace_plugins)
+  }
+}
+
+data "template_cloudinit_config" "private_config" {
+  gzip          = true
+  base64_encode = true
+
+  part {
+    content_type = "text/cloud-config"
+    content      = data.template_file.private_cloudconfig.rendered
   }
 }
 
@@ -82,8 +100,8 @@ data "azurerm_key_vault_secret" "splunk_pass4symmkey" {
 
 
 resource "azurerm_linux_virtual_machine_scale_set" "main" {
-  name                = "${local.prefix}-vmss"
-  resource_group_name = data.azurerm_subnet.iaas.resource_group_name
+  name                = "dynatrace-activegate-${var.env}-vmss"
+  resource_group_name = module.vnet.resourcegroup_name
   location            = var.location
   sku                 = var.sku
   instances           = var.instance_count
@@ -98,60 +116,102 @@ resource "azurerm_linux_virtual_machine_scale_set" "main" {
   custom_data = data.template_cloudinit_config.config.rendered
 
   source_image_reference {
-    publisher = "Canonical"
-    offer     = "UbuntuServer"
-    sku       = "18.04-LTS"
-    version   = "latest"
+    publisher = var.publisher
+    offer     = var.offer
+    sku       = var.sku
+    version   = var.version
   }
 
   os_disk {
-    storage_account_type = "Standard_LRS"
+    storage_account_type = var.storage_account_type
     caching              = "ReadWrite"
   }
 
   network_interface {
-    name    = "${local.prefix}-ni"
+    name    = "${var.component}-${var.env}-ni"
     primary = true
 
     ip_configuration {
       name      = "internal"
       primary   = true
-      subnet_id = data.azurerm_subnet.iaas.id
+      subnet_id = module.vnet.subnet_ids[0]
     }
   }
 
-  tags = var.common_tags
+  # tags = var.common_tags
 }
 
-data "azurerm_log_analytics_workspace" "law" {
-  provider            = azurerm.law
-  name                = "hmcts-${local.environment}"
-  resource_group_name = "oms-automation"
-}
+resource "azurerm_linux_virtual_machine_scale_set" "private" {
+  name                = "dynatrace-activegate-private-${var.env}-vmss"
+  resource_group_name = module.vnet.resourcegroup_name
+  location            = var.location
+  sku                 = var.sku
+  instances           = var.instance_count
 
-resource "azurerm_virtual_machine_scale_set_extension" "OmsAgentForLinux" {
+  admin_username = local.adminuser
+  admin_ssh_key {
+    username   = local.adminuser
+    public_key = data.azurerm_key_vault_secret.ssh_public_key.value
+  }
 
-  count = var.enable_log_analytics ? 1 : 0
+  # Please note that custom_data updates will cause VMs to restart
+  custom_data = data.template_cloudinit_config.private_config.rendered
 
-  name                         = "OmsAgentForLinux"
-  virtual_machine_scale_set_id = azurerm_linux_virtual_machine_scale_set.main.id
-  publisher                    = "Microsoft.EnterpriseCloud.Monitoring"
-  type                         = "OmsAgentForLinux"
-  type_handler_version         = "1.13"
-  auto_upgrade_minor_version   = true
+  source_image_reference {
+    publisher = var.publisher
+    offer     = var.offer
+    sku       = var.sku
+    version   = var.version
+  }
 
-  settings = <<SETTINGS
-    {
-        "workspaceId": "${data.azurerm_log_analytics_workspace.law.workspace_id}"
+  os_disk {
+    storage_account_type = var.storage_account_type
+    caching              = "ReadWrite"
+  }
+
+  network_interface {
+    name    = "${var.component}-${var.env}-private-ni"
+    primary = true
+
+    ip_configuration {
+      name      = "internal"
+      primary   = true
+      subnet_id = module.vnet.subnet_ids[0]
     }
-    SETTINGS
+  }
 
-  protected_settings = <<PROTECTED_SETTINGS
-    {
-        "workspaceKey": "${data.azurerm_log_analytics_workspace.law.primary_shared_key}"
-    }
-    PROTECTED_SETTINGS
+  # tags = var.common_tags
 }
+
+# data "azurerm_log_analytics_workspace" "law" {
+#   provider            = azurerm.law
+#   name                = "hmcts-${local.environment}"
+#   resource_group_name = "oms-automation"
+# }
+
+# resource "azurerm_virtual_machine_scale_set_extension" "OmsAgentForLinux" {
+
+#   count = var.enable_log_analytics ? 1 : 0
+
+#   name                         = "OmsAgentForLinux"
+#   virtual_machine_scale_set_id = azurerm_linux_virtual_machine_scale_set.main.id
+#   publisher                    = "Microsoft.EnterpriseCloud.Monitoring"
+#   type                         = "OmsAgentForLinux"
+#   type_handler_version         = "1.13"
+#   auto_upgrade_minor_version   = true
+
+#   settings = <<SETTINGS
+#     {
+#         "workspaceId": "${data.azurerm_log_analytics_workspace.law.workspace_id}"
+#     }
+#     SETTINGS
+
+#   protected_settings = <<PROTECTED_SETTINGS
+#     {
+#         "workspaceKey": "${data.azurerm_log_analytics_workspace.law.primary_shared_key}"
+#     }
+#     PROTECTED_SETTINGS
+# }
 
 
 module "splunk-uf" {

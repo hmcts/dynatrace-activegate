@@ -42,13 +42,20 @@ parameters:
   - name: environment_components
     type: object
     default:
-    - deployment: 'ptl_dynatrace_activegate'
-      environment: 'ptl'
-      component: 'dynatrace_activegate'
+    - deployment: 'nonprod_dynatrace_activegate'
+      environment: 'nonprod'
+      component: 'dynatrace-activegate'
       service_connection: 'DTS-CFTPTL-INTSVC'
       storage_account_rg: 'core-infra-intsvc-rg'
       storage_account_name: 'cftptlintsvc'
       dependsOn: 'Precheck'
+    - deployment: 'prod_dynatrace_activegate'
+      environment: 'prod'
+      component: 'dynatrace-activegate'
+      service_connection: 'DTS-CFTPTL-INTSVC'
+      storage_account_rg: 'core-infra-intsvc-rg'
+      storage_account_name: 'cftptlintsvc'
+      dependsOn: 'nonprod_dynatrace_activegate'
 
 stages:
   - stage: Precheck
