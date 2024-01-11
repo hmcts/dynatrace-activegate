@@ -1,5 +1,5 @@
 module "vnet" {
-  source                = "https://github.com/hmcts/cnp-module-vnet?ref=master"
+  source                = "git::https://github.com/hmcts/cnp-module-vnet?ref=master"
   name                  = var.component
   location              = var.location
   address_space         = var.address_space
