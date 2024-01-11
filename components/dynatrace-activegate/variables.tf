@@ -280,12 +280,8 @@ variable "offer" {
   default = "UbuntuServer"
 }
 
-variable "sku" {
+variable "image_sku" {
   default = "22.04-LTS"
-}
-
-variable "version" {
-  default = "latest"
 }
 
 variable "storage_account_type" {

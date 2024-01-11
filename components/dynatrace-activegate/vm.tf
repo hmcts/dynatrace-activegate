@@ -118,8 +118,8 @@ resource "azurerm_linux_virtual_machine_scale_set" "main" {
   source_image_reference {
     publisher = var.publisher
     offer     = var.offer
-    sku       = var.sku
-    version   = var.version
+    sku       = var.image_sku
+    version   = "latest"
   }
 
   os_disk {
@@ -160,8 +160,8 @@ resource "azurerm_linux_virtual_machine_scale_set" "private" {
   source_image_reference {
     publisher = var.publisher
     offer     = var.offer
-    sku       = var.sku
-    version   = var.version
+    sku       = var.image_sku
+    version   = "latest"
   }
 
   os_disk {

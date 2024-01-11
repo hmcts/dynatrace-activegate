@@ -1,11 +1,11 @@
 # Docs:
 # https://aka.ms/yaml
 
-# trigger:
-  # batch: true
-  # branches:
-  #   include:
-  #   - master
+trigger:
+  batch: false
+  branches:
+    include:
+    - master
 
 resources:
   repositories:
