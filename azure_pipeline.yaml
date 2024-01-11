@@ -43,7 +43,7 @@ parameters:
     type: object
     default:
     - deployment: 'nonprod_dynatrace_activegate'
-      environment: 'nonprod'
+      environment: 'stg'
       component: 'dynatrace-activegate'
       service_connection: 'DTS-MANAGEMENT-NONPROD-INTSVC'
       # storage_account_rg: 'core-infra-intsvc-rg'
