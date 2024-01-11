@@ -128,7 +128,7 @@ resource "azurerm_linux_virtual_machine_scale_set" "main" {
   }
 
   network_interface {
-    name    = "${var.component}-${var.env}-ni"
+    name    = "${var.name}-${var.env}-ni"
     primary = true
 
     ip_configuration {
@@ -170,7 +170,7 @@ resource "azurerm_linux_virtual_machine_scale_set" "private" {
   }
 
   network_interface {
-    name    = "${var.component}-${var.env}-private-ni"
+    name    = "${var.name}-${var.env}-private-ni"
     primary = true
 
     ip_configuration {

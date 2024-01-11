@@ -1,6 +1,6 @@
 module "vnet" {
   source                = "git::https://github.com/hmcts/cnp-module-vnet?ref=master"
-  name                  = var.component
+  name                  = var.name
   location              = var.location
   address_space         = var.address_space
   source_range          = var.address_space

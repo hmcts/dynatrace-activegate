@@ -178,7 +178,7 @@ variable "apim_appgw_max_capacity" {
 
 variable "name" {
   type    = string
-  default = "activegate"
+  default = "dynatrace-activegate"
 }
 
 variable "resource_group_name" {
@@ -269,8 +269,6 @@ variable "address_space" {
 variable "subnet_count" {
   default = "2"
 }
-
-variable "component" {}
 
 variable "publisher" {
   default = "Canonical"
