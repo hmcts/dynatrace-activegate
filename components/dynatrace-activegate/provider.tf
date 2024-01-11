@@ -33,3 +33,9 @@ provider "azurerm" {
   features {}
   subscription_id = "8ae5b3b6-0b12-4888-b894-4cec33c92292"
 }
+
+provider "azurerm" {
+  alias = "ptl"
+  features {}
+  subscription_id = "1baf5470-1c3e-40d3-a6f7-74bfbce4b348"
+}

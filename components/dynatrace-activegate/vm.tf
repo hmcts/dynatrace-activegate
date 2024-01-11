@@ -5,21 +5,25 @@ locals {
 }
 
 data "azurerm_key_vault" "subscription_vault" {
+  provider            = azurerm.ptl
   name                = var.vault_name
   resource_group_name = var.vault_rg
 }
 
 data "azurerm_key_vault_secret" "dynatrace_paas_token" {
+  provider     = azurerm.ptl
   name         = "dynatrace-${var.env}-paas-token"
   key_vault_id = data.azurerm_key_vault.subscription_vault.id
 }
 
 data "azurerm_key_vault_secret" "ssh_public_key" {
+  provider     = azurerm.ptl
   name         = "aks-ssh-pub-key"
   key_vault_id = data.azurerm_key_vault.subscription_vault.id
 }
 
 data "azurerm_storage_account" "dynatrace_plugin_storage" {
+  provider            = azurerm.ptl
   name                = var.storage_account
   resource_group_name = var.storage_account_rg
 }
