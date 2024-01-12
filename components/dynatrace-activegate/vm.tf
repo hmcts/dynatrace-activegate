@@ -101,61 +101,92 @@ data "azurerm_key_vault_secret" "splunk_pass4symmkey" {
   key_vault_id = data.azurerm_key_vault.soc_vault.id
 }
 
-resource "random_password" "vm_password" {
-  for_each         = var.vm_scale_sets
-  length           = 16
-  special          = true
-  override_special = "#$%&@()_[]{}<>:?"
-  min_upper        = 1
-  min_lower        = 1
-  min_numeric      = 1
-}
 
-resource "azurerm_key_vault_secret" "vm_password_secret" {
-  for_each     = var.vm_scale_sets
-  name         = "${each.key}-vm-password"
-  value        = random_password.vm_password[each.key].result
-  key_vault_id = data.azurerm_key_vault.shared_dgw_kv.id
-}
 
-module "linux-vm-ss" {
-  providers = {
-    azurerm = azurerm
-    azurerm.cnp = azurerm
-    azurerm.soc = azurerm.soc
-  }
+resource "azurerm_linux_virtual_machine_scale_set" "main" {
   for_each = var.vm_scale_sets
-  source = "git::https://github.com/hmcts/terraform-module-virtual-machine-scale-set?ref=main"
-  vm_type              = "linux-scale-set"
-  vm_name              = "${each.key}-${var.env}-vmss"
-  computer_name_prefix = each.value.computer_name_prefix
-  vm_resource_group    = module.vnet.resourcegroup_name
-  vm_sku               = var.sku
-  vm_admin_password    = random_string.vm_password.result
-  vm_availabilty_zones = ["1"]
-  vm_publisher_name = var.publisher
-  vm_offer          = var.offer
-  vm_image_sku      = var.image_sku
-  vm_version        = "latest"
-  vm_instances = var.instance_count
-  network_interfaces = {
-    nic01 = { name = "${each.key}-${var.env}-ni",
-      primary        = true,
-      ip_config_name = "internal",
-    subnet_id = module.vnet.subnet_ids[0]
+  name                = "dynatrace-activegate-${var.env}-vmss"
+  resource_group_name = module.vnet.resourcegroup_name
+  location            = var.location
+  sku                 = var.sku
+  instances           = var.instance_count
+
+  admin_username = local.adminuser
+  admin_ssh_key {
+    username   = local.adminuser
+    public_key = data.azurerm_key_vault_secret.ssh_public_key.value
+  }
+
+  # Please note that custom_data updates will cause VMs to restart
+  custom_data = data.template_cloudinit_config.config.rendered
+
+  source_image_reference {
+    publisher = var.publisher
+    offer     = var.offer
+    sku       = var.image_sku
+    version   = "latest"
+  }
+
+  os_disk {
+    storage_account_type = var.storage_account_type
+    caching              = "ReadWrite"
+  }
+
+  network_interface {
+    name    = "${var.name}-${var.env}-ni"
+    primary = true
+
+    ip_configuration {
+      name      = "internal"
+      primary   = true
+      subnet_id = module.vnet.subnet_ids[0]
     }
   }
-  tags = merge(module.ctags.common_tags, { expiresAfter = "3000-05-30" })
-  subnet_id = "abc"
+
+  # tags = var.common_tags
 }
 
-#
+# resource "azurerm_linux_virtual_machine_scale_set" "private" {
+#   name                = "dynatrace-activegate-private-${var.env}-vmss"
+#   resource_group_name = module.vnet.resourcegroup_name
+#   location            = var.location
+#   sku                 = var.sku
+#   instances           = var.instance_count
 
-  # tags = var.common_tags
-#
+#   admin_username = local.adminuser
+#   admin_ssh_key {
+#     username   = local.adminuser
+#     public_key = data.azurerm_key_vault_secret.ssh_public_key.value
+#   }
 
-  # tags = var.common_tags
-#}
+#   # Please note that custom_data updates will cause VMs to restart
+#   custom_data = data.template_cloudinit_config.private_config.rendered
+
+#   source_image_reference {
+#     publisher = var.publisher
+#     offer     = var.offer
+#     sku       = var.image_sku
+#     version   = "latest"
+#   }
+
+#   os_disk {
+#     storage_account_type = var.storage_account_type
+#     caching              = "ReadWrite"
+#   }
+
+#   network_interface {
+#     name    = "${var.name}-${var.env}-private-ni"
+#     primary = true
+
+#     ip_configuration {
+#       name      = "internal"
+#       primary   = true
+#       subnet_id = module.vnet.subnet_ids[0]
+#     }
+#   }
+
+#   # tags = var.common_tags
+# }
 
 # data "azurerm_log_analytics_workspace" "law" {
 #   provider            = azurerm.law
@@ -189,13 +220,13 @@ module "linux-vm-ss" {
 
 
 module "splunk-uf" {
-  count = var.install_splunk_uf ? 1 : 0
+  for_each = {for k,v in var.vm_scale_sets : k=> v if v.add_splunk == true}
 
   source = "git::https://github.com/hmcts/terraform-module-splunk-universal-forwarder.git?ref=master"
 
   auto_upgrade_minor_version   = true
   virtual_machine_type         = "vmss"
-  virtual_machine_scale_set_id = azurerm_linux_virtual_machine_scale_set.main.id
+  virtual_machine_scale_set_id = azurerm_linux_virtual_machine_scale_set.main[each.key].id
   splunk_username              = data.azurerm_key_vault_secret.splunk_username.value
   splunk_password              = data.azurerm_key_vault_secret.splunk_password.value
   splunk_pass4symmkey          = data.azurerm_key_vault_secret.splunk_pass4symmkey.value

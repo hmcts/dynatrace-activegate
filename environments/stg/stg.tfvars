@@ -18,11 +18,11 @@ enable_log_analytics    = true
 
 vm_scale_sets = {
     dynatrace-activegate = {
-        computer_name_prefix    = "dyn-ag"
-        instance_count          = 2
+        instances          = 2
+        add_splunk = true
     }
     dynatrace-activegate-private = {
-        computer_name_prefix    = "dyn-ag-private"
-        instance_count          = 2
+        instances        = 2
+        add_splunk = false
     }
 }
