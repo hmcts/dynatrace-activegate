@@ -101,91 +101,55 @@ data "azurerm_key_vault_secret" "splunk_pass4symmkey" {
   key_vault_id = data.azurerm_key_vault.soc_vault.id
 }
 
-
-
-resource "azurerm_linux_virtual_machine_scale_set" "main" {
-  name                = "dynatrace-activegate-${var.env}-vmss"
-  resource_group_name = module.vnet.resourcegroup_name
-  location            = var.location
-  sku                 = var.sku
-  instances           = var.instance_count
-
-  admin_username = local.adminuser
-  admin_ssh_key {
-    username   = local.adminuser
-    public_key = data.azurerm_key_vault_secret.ssh_public_key.value
-  }
-
-  # Please note that custom_data updates will cause VMs to restart
-  custom_data = data.template_cloudinit_config.config.rendered
-
-  source_image_reference {
-    publisher = var.publisher
-    offer     = var.offer
-    sku       = var.image_sku
-    version   = "latest"
-  }
-
-  os_disk {
-    storage_account_type = var.storage_account_type
-    caching              = "ReadWrite"
-  }
-
-  network_interface {
-    name    = "${var.name}-${var.env}-ni"
-    primary = true
-
-    ip_configuration {
-      name      = "internal"
-      primary   = true
-      subnet_id = module.vnet.subnet_ids[0]
-    }
-  }
-
-  # tags = var.common_tags
+resource "random_password" "vm_password" {
+  for_each         = var.vm_scale_sets
+  length           = 16
+  special          = true
+  override_special = "#$%&@()_[]{}<>:?"
+  min_upper        = 1
+  min_lower        = 1
+  min_numeric      = 1
 }
 
-resource "azurerm_linux_virtual_machine_scale_set" "private" {
-  name                = "dynatrace-activegate-private-${var.env}-vmss"
-  resource_group_name = module.vnet.resourcegroup_name
-  location            = var.location
-  sku                 = var.sku
-  instances           = var.instance_count
+resource "azurerm_key_vault_secret" "vm_password_secret" {
+  for_each     = var.vm_scale_sets
+  name         = "${each.key}-vm-password"
+  value        = random_password.vm_password[each.key].result
+  key_vault_id = data.azurerm_key_vault.shared_dgw_kv.id
+}
 
-  admin_username = local.adminuser
-  admin_ssh_key {
-    username   = local.adminuser
-    public_key = data.azurerm_key_vault_secret.ssh_public_key.value
-  }
-
-  # Please note that custom_data updates will cause VMs to restart
-  custom_data = data.template_cloudinit_config.private_config.rendered
-
-  source_image_reference {
-    publisher = var.publisher
-    offer     = var.offer
-    sku       = var.image_sku
-    version   = "latest"
-  }
-
-  os_disk {
-    storage_account_type = var.storage_account_type
-    caching              = "ReadWrite"
-  }
-
-  network_interface {
-    name    = "${var.name}-${var.env}-private-ni"
-    primary = true
-
-    ip_configuration {
-      name      = "internal"
-      primary   = true
-      subnet_id = module.vnet.subnet_ids[0]
+module "linux-vm-ss" {
+  for_each = var.vm_scale_sets
+  source = "git::https://github.com/hmcts/terraform-module-virtual-machine-scale-set?ref=main"
+  vm_type              = "linux-scale-set"
+  vm_name              = "${each.key}-${var.env}-vmss"
+  computer_name_prefix = each.value.computer_name_prefix
+  vm_resource_group    = module.vnet.resourcegroup_name
+  vm_sku               = var.sku
+  vm_admin_password    = random_string.vm_password.result
+  vm_availabilty_zones = ["1"]
+  vm_publisher_name = var.publisher
+  vm_offer          = var.offer
+  vm_image_sku      = var.image_sku
+  vm_version        = "latest"
+  vm_instances = var.instance_count
+  network_interfaces = {
+    nic01 = { name = "${each.key}-${var.env}-ni",
+      primary        = true,
+      ip_config_name = "internal",
+    subnet_id = module.vnet.subnet_ids[0]
     }
   }
+  #tags = merge(module.ctags.common_tags, { expiresAfter = "3000-05-30" })
+}
+
+#
 
   # tags = var.common_tags
-}
+#
+
+  # tags = var.common_tags
+#}
 
 # data "azurerm_log_analytics_workspace" "law" {
 #   provider            = azurerm.law

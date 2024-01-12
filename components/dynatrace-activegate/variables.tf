@@ -285,3 +285,8 @@ variable "image_sku" {
 variable "storage_account_type" {
   default = "Standard_LRS"
 }
+
+variable "vm_scale_sets" {
+  description = "The VM Scale sets configuration variable"
+  default     = {}
+}
