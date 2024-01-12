@@ -119,6 +119,11 @@ resource "azurerm_key_vault_secret" "vm_password_secret" {
 }
 
 module "linux-vm-ss" {
+  providers = {
+    azurerm = azurerm
+    azurerm.cnp = azurerm
+    azurerm.soc = azurerm.soc
+  }
   for_each = var.vm_scale_sets
   source = "git::https://github.com/hmcts/terraform-module-virtual-machine-scale-set?ref=main"
   vm_type              = "linux-scale-set"
@@ -140,7 +145,8 @@ module "linux-vm-ss" {
     subnet_id = module.vnet.subnet_ids[0]
     }
   }
-  #tags = merge(module.ctags.common_tags, { expiresAfter = "3000-05-30" })
+  tags = merge(module.ctags.common_tags, { expiresAfter = "3000-05-30" })
+  subnet_id = "abc"
 }
 
 #
