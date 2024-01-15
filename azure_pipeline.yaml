@@ -25,7 +25,7 @@ variables:
   - name: businessArea
     value: cft
   - name: product
-    value: cft-platform
+    value: dynatrace
   - name: terraformInitSubscription
     value: 04d27a32-7a07-48b3-95b8-3c8691e1a263
   - template: vars/input-variables.yaml@cnp-azuredevops-libraries
@@ -44,18 +44,32 @@ parameters:
     default:
     - deployment: 'nonprod_dynatrace_activegate'
       environment: 'stg'
-      component: 'dynatrace-activegate'
+      component: 'activegate'
       service_connection: 'DTS-MANAGEMENT-NONPROD-INTSVC'
       storage_account_rg: 'core-infra-intsvc-rg'
       storage_account_name: 'cftptlintsvc'
       dependsOn: 'Precheck'
-    - deployment: 'prod_dynatrace_activegate'
-      environment: 'prod'
-      component: 'dynatrace-activegate'
-      service_connection: 'DTS-MANAGEMENT-PROD-INTSVC'
+    - deployment: 'nonprod_peerings'
+      environment: 'stg'
+      component: 'peerings'
+      service_connection: 'DTS-MANAGEMENT-NONPROD-INTSVC'
       storage_account_rg: 'core-infra-intsvc-rg'
       storage_account_name: 'cftptlintsvc'
       dependsOn: 'nonprod_dynatrace_activegate'
+    - deployment: 'prod_dynatrace_activegate'
+      environment: 'prod'
+      component: 'activegate'
+      service_connection: 'DTS-MANAGEMENT-PROD-INTSVC'
+      storage_account_rg: 'core-infra-intsvc-rg'
+      storage_account_name: 'cftptlintsvc'
+      dependsOn: 'nonprod_peerings'
+    - deployment: 'prod_peerings'
+      environment: 'prod'
+      component: 'peerings'
+      service_connection: 'DTS-MANAGEMENT-NONPROD-INTSVC'
+      storage_account_rg: 'core-infra-intsvc-rg'
+      storage_account_name: 'cftptlintsvc'
+      dependsOn: 'prod_dynatrace_activegate'
 
 stages:
   - stage: Precheck
