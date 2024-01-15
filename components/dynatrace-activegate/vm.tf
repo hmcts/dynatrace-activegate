@@ -1,4 +1,3 @@
-
 module "ctags" {
   source       = "git::https://github.com/hmcts/terraform-module-common-tags.git?ref=master"
   environment  = var.env
@@ -6,7 +5,6 @@ module "ctags" {
   builtFrom    = var.builtFrom
   expiresAfter = var.expiresAfter
 }
-
 
 locals {
   prefix      = var.config_file_name == "cloudconfig-private" ? "activegate-private-${var.env}" : "activegate-${var.env}"
@@ -37,7 +35,6 @@ data "azurerm_storage_account" "dynatrace_plugin_storage" {
   name                = var.storage_account
   resource_group_name = var.storage_account_rg
 }
-
 
 data "template_file" "cloudconfig" {
   template = file("${path.module}/cloudconfig.tpl")
@@ -111,8 +108,6 @@ data "azurerm_key_vault_secret" "splunk_pass4symmkey" {
   key_vault_id = data.azurerm_key_vault.soc_vault.id
 }
 
-
-
 resource "azurerm_linux_virtual_machine_scale_set" "main" {
   for_each            = var.vm_scale_sets
   name                = "dynatrace-activegate-${var.env}-vmss"
@@ -151,84 +146,10 @@ resource "azurerm_linux_virtual_machine_scale_set" "main" {
       primary   = true
       subnet_id = module.vnet.subnet_ids[0]
     }
-
   }
 
   tags = module.ctags.common_tags
 }
-
-# resource "azurerm_linux_virtual_machine_scale_set" "private" {
-#   name                = "dynatrace-activegate-private-${var.env}-vmss"
-#   resource_group_name = module.vnet.resourcegroup_name
-#   location            = var.location
-#   sku                 = var.sku
-#   instances           = var.instance_count
-
-#   admin_username = local.adminuser
-#   admin_ssh_key {
-#     username   = local.adminuser
-#     public_key = data.azurerm_key_vault_secret.ssh_public_key.value
-#   }
-
-#   # Please note that custom_data updates will cause VMs to restart
-#   custom_data = data.template_cloudinit_config.private_config.rendered
-
-#   source_image_reference {
-#     publisher = var.publisher
-#     offer     = var.offer
-#     sku       = var.image_sku
-#     version   = "latest"
-#   }
-
-#   os_disk {
-#     storage_account_type = var.storage_account_type
-#     caching              = "ReadWrite"
-#   }
-
-#   network_interface {
-#     name    = "${var.name}-${var.env}-private-ni"
-#     primary = true
-
-#     ip_configuration {
-#       name      = "internal"
-#       primary   = true
-#       subnet_id = module.vnet.subnet_ids[0]
-#     }
-#   }
-
-#    tags = var.common_tags
-# }
-
-# data "azurerm_log_analytics_workspace" "law" {
-#   provider            = azurerm.law
-#   name                = "hmcts-${local.environment}"
-#   resource_group_name = "oms-automation"
-# }
-
-# resource "azurerm_virtual_machine_scale_set_extension" "OmsAgentForLinux" {
-
-#   count = var.enable_log_analytics ? 1 : 0
-
-#   name                         = "OmsAgentForLinux"
-#   virtual_machine_scale_set_id = azurerm_linux_virtual_machine_scale_set.main.id
-#   publisher                    = "Microsoft.EnterpriseCloud.Monitoring"
-#   type                         = "OmsAgentForLinux"
-#   type_handler_version         = "1.13"
-#   auto_upgrade_minor_version   = true
-
-#   settings = <<SETTINGS
-#     {
-#         "workspaceId": "${data.azurerm_log_analytics_workspace.law.workspace_id}"
-#     }
-#     SETTINGS
-
-#   protected_settings = <<PROTECTED_SETTINGS
-#     {
-#         "workspaceKey": "${data.azurerm_log_analytics_workspace.law.primary_shared_key}"
-#     }
-#     PROTECTED_SETTINGS
-# }
-
 
 module "splunk-uf" {
   for_each = { for k, v in var.vm_scale_sets : k => v if v.add_splunk == true }
