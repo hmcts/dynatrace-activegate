@@ -280,7 +280,7 @@ variable "offer" {
 }
 
 variable "image_sku" {
-  default = "22.04-LTS"
+  default = "18.04-LTS"
 }
 
 variable "storage_account_type" {
