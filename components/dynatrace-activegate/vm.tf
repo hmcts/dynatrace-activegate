@@ -1,3 +1,13 @@
+
+module "ctags" {
+  source       = "git::https://github.com/hmcts/terraform-module-common-tags.git?ref=master"
+  environment  = var.env
+  product      = var.product
+  builtFrom    = var.builtFrom
+  expiresAfter = var.expiresAfter
+}
+
+
 locals {
   prefix      = var.config_file_name == "cloudconfig-private" ? "activegate-private-${var.env}" : "activegate-${var.env}"
   environment = var.env == "ptl" ? "prod" : "${var.env}"
@@ -141,9 +151,10 @@ resource "azurerm_linux_virtual_machine_scale_set" "main" {
       primary   = true
       subnet_id = module.vnet.subnet_ids[0]
     }
+
   }
 
-  tags = var.common_tags
+  tags = module.ctags.common_tags
 }
 
 # resource "azurerm_linux_virtual_machine_scale_set" "private" {
