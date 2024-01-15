@@ -26,7 +26,7 @@ locals {
 
   hubs_to_peer = {
     nonprod = ["sbox", "nonprod"]
-    prod = ["prod"]
+    prod    = ["prod"]
   }
 
   regions = [

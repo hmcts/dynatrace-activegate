@@ -17,12 +17,12 @@ install_splunk_uf       = true
 enable_log_analytics    = true
 
 vm_scale_sets = {
-    dynatrace-activegate = {
-        instances          = 2
-        add_splunk = true
-    }
-    dynatrace-activegate-private = {
-        instances        = 2
-        add_splunk = false
-    }
+  dynatrace-activegate = {
+    instances  = 2
+    add_splunk = true
+  }
+  dynatrace-activegate-private = {
+    instances  = 2
+    add_splunk = false
+  }
 }

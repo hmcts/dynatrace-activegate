@@ -1,6 +1,6 @@
 module "vnet_peer_hub_sbox" {
   for_each = toset([for r in local.regions : r if contains(local.hubs_to_peer[var.env], "nonprod")])
-  source = "github.com/hmcts/terraform-module-vnet-peering"
+  source   = "github.com/hmcts/terraform-module-vnet-peering"
 
   peerings = {
     source = {
@@ -23,7 +23,7 @@ module "vnet_peer_hub_sbox" {
 
 module "vnet_peer_hub_nonprod" {
   for_each = toset([for r in local.regions : r if contains(local.hubs_to_peer[var.env], "nonprod")])
-  source = "github.com/hmcts/terraform-module-vnet-peering"
+  source   = "github.com/hmcts/terraform-module-vnet-peering"
 
   peerings = {
     source = {
@@ -46,7 +46,7 @@ module "vnet_peer_hub_nonprod" {
 
 module "vnet_peer_hub_prod" {
   for_each = toset([for r in local.regions : r if contains(local.hubs_to_peer[var.env], "prod")])
-  source = "github.com/hmcts/terraform-module-vnet-peering"
+  source   = "github.com/hmcts/terraform-module-vnet-peering"
 
   peerings = {
     source = {
