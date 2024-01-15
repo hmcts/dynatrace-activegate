@@ -8,7 +8,7 @@ module "ctags" {
 
 locals {
   prefix      = var.config_file_name == "cloudconfig-private" ? "activegate-private-${var.env}" : "activegate-${var.env}"
-  environment = var.env == "ptl" ? "prod" : "${var.env}"
+  environment = var.env == "prod" ? "ptl" : "${var.env}"
   adminuser   = "azureuser"
 }
 
@@ -20,7 +20,7 @@ data "azurerm_key_vault" "subscription_vault" {
 
 data "azurerm_key_vault_secret" "dynatrace_paas_token" {
   provider     = azurerm.ptl
-  name         = "dynatrace-${var.env}-paas-token"
+  name         = "dynatrace-${local.environment}-paas-token"
   key_vault_id = data.azurerm_key_vault.subscription_vault.id
 }
 
