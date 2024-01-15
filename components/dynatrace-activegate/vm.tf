@@ -104,7 +104,7 @@ data "azurerm_key_vault_secret" "splunk_pass4symmkey" {
 
 
 resource "azurerm_linux_virtual_machine_scale_set" "main" {
-  for_each = var.vm_scale_sets
+  for_each            = var.vm_scale_sets
   name                = "dynatrace-activegate-${var.env}-vmss"
   resource_group_name = module.vnet.resourcegroup_name
   location            = var.location
@@ -143,7 +143,7 @@ resource "azurerm_linux_virtual_machine_scale_set" "main" {
     }
   }
 
-   tags = var.common_tags
+  tags = var.common_tags
 }
 
 # resource "azurerm_linux_virtual_machine_scale_set" "private" {
@@ -220,7 +220,7 @@ resource "azurerm_linux_virtual_machine_scale_set" "main" {
 
 
 module "splunk-uf" {
-  for_each = {for k,v in var.vm_scale_sets : k=> v if v.add_splunk == true}
+  for_each = { for k, v in var.vm_scale_sets : k => v if v.add_splunk == true }
 
   source = "git::https://github.com/hmcts/terraform-module-splunk-universal-forwarder.git?ref=master"
 
