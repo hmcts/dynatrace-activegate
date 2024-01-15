@@ -101,7 +101,7 @@ variable "certificate_name_check" {
   default = true
 }
 variable "common_tags" {
-  default = []
+  type = map(string)
 }
 
 variable "add_access_policy" {

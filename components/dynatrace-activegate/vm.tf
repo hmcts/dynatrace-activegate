@@ -143,7 +143,7 @@ resource "azurerm_linux_virtual_machine_scale_set" "main" {
     }
   }
 
-  # tags = var.common_tags
+   tags = var.common_tags
 }
 
 # resource "azurerm_linux_virtual_machine_scale_set" "private" {
@@ -185,7 +185,7 @@ resource "azurerm_linux_virtual_machine_scale_set" "main" {
 #     }
 #   }
 
-#   # tags = var.common_tags
+#    tags = var.common_tags
 # }
 
 # data "azurerm_log_analytics_workspace" "law" {
