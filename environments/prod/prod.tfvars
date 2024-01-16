@@ -8,8 +8,6 @@ kv_rg_name     = "core-infra-intsvc-rg"
 data_subscription = "8999dec3-0104-4a27-94ee-6588559729d1"
 oms_env           = "prod"
 
-instance_count         = 3
-private_instance_count = 2
 env                    = "prod"
 network_zone           = "azure.cft"
 config_file_name       = "cloudconfig-private"

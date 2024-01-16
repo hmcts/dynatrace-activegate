@@ -114,7 +114,7 @@ resource "azurerm_linux_virtual_machine_scale_set" "main" {
   resource_group_name = module.vnet.resourcegroup_name
   location            = var.location
   sku                 = var.sku
-  instances           = var.instance_count
+  instances           = each.value.instances
 
   admin_username = local.adminuser
   admin_ssh_key {

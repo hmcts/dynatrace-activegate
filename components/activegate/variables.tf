@@ -206,9 +206,6 @@ variable "network_zone" {
   default = ""
 }
 
-variable "instance_count" {
-  default = 1
-}
 
 variable "sku" {
   default = "Standard_D2s_v3"
