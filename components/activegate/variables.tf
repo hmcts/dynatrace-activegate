@@ -276,11 +276,11 @@ variable "publisher" {
 }
 
 variable "offer" {
-  default = "UbuntuServer"
+  default = "0001-com-ubuntu-server-jammy"
 }
 
 variable "image_sku" {
-  default = "18.04-LTS"
+  default = "22_04-lts"
 }
 
 variable "storage_account_type" {
