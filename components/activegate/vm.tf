@@ -37,7 +37,8 @@ data "azurerm_storage_account" "dynatrace_plugin_storage" {
 }
 
 data "template_file" "cloudconfig" {
-  template = file("${path.module}/cloudconfig.tpl")
+  for_each = var.vm_scale_sets
+  template = each.key == "dynatrace-activegate" ? file("${path.module}/cloudconfig.tpl") : file("${path.module}/cloudconfig-private.tpl")
 
   vars = {
     paas_token               = data.azurerm_key_vault_secret.dynatrace_paas_token.value
@@ -51,36 +52,13 @@ data "template_file" "cloudconfig" {
 }
 
 data "template_cloudinit_config" "config" {
+  for_each      = var.vm_scale_sets
   gzip          = true
   base64_encode = true
 
   part {
     content_type = "text/cloud-config"
-    content      = data.template_file.cloudconfig.rendered
-  }
-}
-
-data "template_file" "private_cloudconfig" {
-  template = file("${path.module}/cloudconfig-private.tpl")
-
-  vars = {
-    paas_token               = data.azurerm_key_vault_secret.dynatrace_paas_token.value
-    dynatrace_instance_name  = var.dynatrace_instance_name
-    network_zone             = var.network_zone
-    plugin_storage_account   = data.azurerm_storage_account.dynatrace_plugin_storage.name
-    plugin_storage_container = var.storage_container
-    plugin_storage_key       = data.azurerm_storage_account.dynatrace_plugin_storage.primary_access_key
-    dynatrace_plugins        = join(" ", var.dynatrace_plugins)
-  }
-}
-
-data "template_cloudinit_config" "private_config" {
-  gzip          = true
-  base64_encode = true
-
-  part {
-    content_type = "text/cloud-config"
-    content      = data.template_file.private_cloudconfig.rendered
+    content      = data.template_file.cloudconfig[each.key].rendered
   }
 }
 
@@ -123,7 +101,7 @@ resource "azurerm_linux_virtual_machine_scale_set" "main" {
   }
 
   # Please note that custom_data updates will cause VMs to restart
-  custom_data = data.template_cloudinit_config.config.rendered
+  custom_data = data.template_cloudinit_config.config[each.key].rendered
 
   source_image_reference {
     publisher = var.publisher
