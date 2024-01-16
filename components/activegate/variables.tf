@@ -261,7 +261,6 @@ variable "splunk_pass4symmkey_secret" {
 }
 
 variable "address_space" {
-  default = "10.10.80.0/24"
 }
 
 variable "subnet_count" {

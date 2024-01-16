@@ -16,6 +16,8 @@ config_file_name        = "cloudconfig-private"
 install_splunk_uf       = true
 enable_log_analytics    = true
 
+address_space           = "10.10.80.0/24"
+
 vm_scale_sets = {
   dynatrace-activegate = {
     instances  = 2
