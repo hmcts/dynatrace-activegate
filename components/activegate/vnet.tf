@@ -7,5 +7,6 @@ module "vnet" {
   env                   = var.env
   lb_private_ip_address = cidrhost(cidrsubnet(var.address_space, 4, 2), -2)
   subnet_count          = var.subnet_count
+  subnet_prefix_length  = var.subnet_prefix_length
   common_tags           = module.ctags.common_tags
 }

@@ -271,6 +271,10 @@ variable "subnet_count" {
   default = "2"
 }
 
+variable "subnet_prefix_length" {
+  default = "2"
+}
+
 variable "publisher" {
   default = "Canonical"
 }
