@@ -1,5 +1,5 @@
 module "nsg" {
-  source = "git::https://github.com/hmcts/terraform-module-network-security-group.git?ref=v1.0.0"
+  source = "git::https://github.com/hmcts/terraform-module-network-security-group.git?ref=DTSPO_16117"
 
   network_security_group_name = "dynatrace-activegate-${var.env}-nsg"
   resource_group_name         = module.vnet.resourcegroup_name
