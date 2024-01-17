@@ -291,3 +291,6 @@ variable "vm_scale_sets" {
   description = "The VM Scale sets configuration variable"
   default     = {}
 }
+
+variable "next_hop_in_ip_address" {
+}

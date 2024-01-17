@@ -16,6 +16,8 @@ enable_log_analytics   = true
 
 address_space          = "10.10.81.0/24"
 
+next_hop_in_ip_address = "10.11.8.36"
+
 vm_scale_sets = {
   dynatrace-activegate = {
     instances  = 3
