@@ -122,7 +122,7 @@ resource "azurerm_linux_virtual_machine_scale_set" "main" {
     ip_configuration {
       name      = "internal"
       primary   = true
-      subnet_id = module.vnet.subnet_ids[0]
+      subnet_id = module.networking.subnet_ids["${var.name}-subnet0"]
     }
   }
 
