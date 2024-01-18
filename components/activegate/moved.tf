@@ -14,14 +14,15 @@ moved {
 # }
 
 moved {
-  from = module.nsg.azurerm_subnet_network_security_group_association.subnet_association["dynatrace-activegate-subnet-0-nonprod"]
+  from = module.vnet.subnet_ids[0]
   to   = module.networking.azurerm_subnet.this["dynatrace-activegate-subnet0"]
 }
 
-moved {
-  from = module.nsg.azurerm_subnet_network_security_group_association.subnet_association["dynatrace-activegate-subnet-1-nonprod"]
-  to   = module.networking.azurerm_subnet.this["dynatrace-activegate-subnet1"]
-}
+# does not match
+# moved {
+#   from = module.nsg.azurerm_subnet_network_security_group_association.subnet_association["dynatrace-activegate-subnet-1-nonprod"]
+#   to   = module.networking.azurerm_subnet.this["dynatrace-activegate-subnet1"]
+# }
 
 # moved {
 #   from =
