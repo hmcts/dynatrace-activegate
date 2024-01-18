@@ -3,6 +3,11 @@ moved {
   to   = module.networking.azurerm_network_security_group.this["nsg"]
 }
 
+moved {
+  from = azurerm_route_table.route_table
+  to   = module.networking.azurerm_route_table.this["rt"]
+}
+
 # moved {
 #   from =
 #   to   = module.networking.azurerm_route.this["rt-default"]
