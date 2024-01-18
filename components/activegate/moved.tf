@@ -10,7 +10,7 @@ moved {
 
 moved {
   from = module.vnet.azurerm_resource_group.rg
-  to   = module.networking.azurerm_resource_group.resource_group_name
+  to   = azurerm_resource_group.rg
 }
 
 moved {
