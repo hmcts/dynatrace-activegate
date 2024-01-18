@@ -13,16 +13,6 @@ moved {
 #   to   = module.networking.azurerm_route_table.this["rt"]
 # }
 
-moved {
-  from = module.vnet.subnet_ids
-  to   = module.networking.azurerm_subnet.this["dynatrace-activegate-subnet0"]
-}
-
-# does not match
-# moved {
-#   from = module.nsg.azurerm_subnet_network_security_group_association.subnet_association["dynatrace-activegate-subnet-1-nonprod"]
-#   to   = module.networking.azurerm_subnet.this["dynatrace-activegate-subnet1"]
-# }
 
 # moved {
 #   from =
