@@ -14,7 +14,7 @@ moved {
 # }
 
 moved {
-  from = module.vnet.subnet_ids[0]
+  from = module.vnet.subnet_ids
   to   = module.networking.azurerm_subnet.this["dynatrace-activegate-subnet0"]
 }
 
