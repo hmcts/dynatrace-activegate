@@ -5,7 +5,7 @@ module "networking" {
   product                      = var.product
   common_tags                  = module.ctags.common_tags
   component                    = var.name
-  existing_resource_group_name = "${var.name}-${var.env}"
+  existing_resource_group_name = module.azurerm_resource_group.rg
 
   vnets = {
     "${var.name}" = {
