@@ -29,7 +29,7 @@ module "vnet_peer_hub_nonprod" {
     source = {
       name           = "hub-${var.env}"
       vnet           = module.networking.vnet_names["dynatrace-activegate-nonprod-vnet"]
-      resource_group = module.networking.resourcegroup_name
+      resource_group = module.networking.resource_group_name
     }
     target = {
       name           = format("%s%s", var.name, var.env)
@@ -52,7 +52,7 @@ module "vnet_peer_hub_prod" {
     source = {
       name           = "hub-${var.env}"
       vnet           = module.networking.vnet_names["dynatrace-activegate-prod-vnet"]
-      resource_group = module.networking.resourcegroup_name
+      resource_group = module.networking.resource_group_name
     }
     target = {
       name           = format("%s%s", var.name, var.env)

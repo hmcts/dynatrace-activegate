@@ -89,7 +89,7 @@ data "azurerm_key_vault_secret" "splunk_pass4symmkey" {
 resource "azurerm_linux_virtual_machine_scale_set" "main" {
   for_each            = var.vm_scale_sets
   name                = "${each.key}-${var.env}-vmss"
-  resource_group_name = module.vnet.resourcegroup_name
+  resource_group_name = module.networking.resource_group_name
   location            = var.location
   sku                 = var.sku
   instances           = each.value.instances
