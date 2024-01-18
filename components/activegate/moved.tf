@@ -14,7 +14,7 @@ moved {
 }
 
 moved {
-  from = module.networking.azurerm_subnet_network_security_group_association.this["nsg-dynatrace-activegate-subnet0"]
+  from = module.vnet.azurerm_subnet.sb[0]
   to   = module.networking.azurerm_subnet.this["dynatrace-activegate-subnet0"]
 }
 
