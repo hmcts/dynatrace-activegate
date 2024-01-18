@@ -5,7 +5,7 @@ module "vnet_peer_hub_sbox" {
   peerings = {
     source = {
       name           = "hub-sbox"
-      vnet           = module.networking.vnets.vnet_name
+      vnet           = module.networking.azurerm_subnet.this.virtual_network_name
       resource_group = module.networking.resource_group_name
     }
     target = {
@@ -28,7 +28,7 @@ module "vnet_peer_hub_nonprod" {
   peerings = {
     source = {
       name           = "hub-${var.env}"
-      vnet           = module.networking.vnets.vnetname
+      vnet           = module.networking.azurerm_subnet.this.virtual_network_name
       resource_group = module.networking.resourcegroup_name
     }
     target = {
@@ -51,7 +51,7 @@ module "vnet_peer_hub_prod" {
   peerings = {
     source = {
       name           = "hub-${var.env}"
-      vnet           = module.networking.vnets.vnetname
+      vnet           = module.networking.azurerm_subnet.this.virtual_network_name
       resource_group = module.networking.resourcegroup_name
     }
     target = {
