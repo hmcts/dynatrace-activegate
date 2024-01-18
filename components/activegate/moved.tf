@@ -18,6 +18,11 @@ moved {
   to   = module.networking.azurerm_subnet.this["dynatrace-activegate-subnet0"]
 }
 
+moved {
+  from = module.vnet.azurerm_subnet.sb[1]
+  to   = module.networking.azurerm_subnet.this["dynatrace-activegate-subnet1"]
+}
+
 # moved {
 #   from =
 #   to   = module.networking.azurerm_route.this["rt-default"]
