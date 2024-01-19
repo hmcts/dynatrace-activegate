@@ -34,15 +34,15 @@ moved {
 # }
 
 
-# moved {
-#   from =
-#   to   = module.networking.azurerm_subnet_network_security_group_association.this["nsg-dynatrace-activegate-subnet0"]
-# }
+moved {
+  from = module.nsg.azurerm_subnet_network_security_group_association.subnet_association["dynatrace-activegate-subnet-0-nonprod"]
+  to   = module.networking.azurerm_subnet_network_security_group_association.this["nsg-dynatrace-activegate-subnet0"]
+}
 
-# moved {
-#   from =
-#   to   = module.networking.azurerm_subnet_network_security_group_association.this["nsg-dynatrace-activegate-subnet1"]
-# }
+moved {
+  from = module.nsg.azurerm_subnet_network_security_group_association.subnet_association["dynatrace-activegate-subnet-1-nonprod"]
+  to   = module.networking.azurerm_subnet_network_security_group_association.this["nsg-dynatrace-activegate-subnet1"]
+}
 
 # moved {
 #   from =
