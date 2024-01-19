@@ -5,8 +5,8 @@ module "vnet_peer_hub_sbox" {
   peerings = {
     source = {
       name           = "hub-sbox"
-      vnet           = module.vnet.vnetname
-      resource_group = module.vnet.resourcegroup_name
+      vnet           = module.networking.vnet_names[var.name]
+      resource_group = module.networking.resource_group_name
     }
     target = {
       name           = format("%s%s", var.name, var.env)
@@ -28,8 +28,8 @@ module "vnet_peer_hub_nonprod" {
   peerings = {
     source = {
       name           = "hub-${var.env}"
-      vnet           = module.vnet.vnetname
-      resource_group = module.vnet.resourcegroup_name
+      vnet           = module.networking.vnet_names[var.name]
+      resource_group = module.networking.resource_group_name
     }
     target = {
       name           = format("%s%s", var.name, var.env)
@@ -51,8 +51,8 @@ module "vnet_peer_hub_prod" {
   peerings = {
     source = {
       name           = "hub-${var.env}"
-      vnet           = module.vnet.vnetname
-      resource_group = module.vnet.resourcegroup_name
+      vnet           = module.networking.vnet_names[var.name]
+      resource_group = module.networking.resource_group_name
     }
     target = {
       name           = format("%s%s", var.name, var.env)

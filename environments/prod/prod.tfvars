@@ -16,6 +16,9 @@ enable_log_analytics   = true
 
 address_space          = "10.10.81.0/24"
 
+address_prefix_subnet0  = "10.10.81.0/26"
+address_prefix_subnet1  = "10.10.81.64/26"
+
 next_hop_in_ip_address = "10.11.8.36"
 
 vm_scale_sets = {
