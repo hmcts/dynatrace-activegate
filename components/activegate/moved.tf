@@ -45,6 +45,16 @@ moved {
 }
 
 moved {
+  from = module.nsg.azurerm_subnet_network_security_group_association.subnet_association["dynatrace-activegate-subnet-0-prod"]
+  to   = module.networking.azurerm_subnet_network_security_group_association.this["nsg-dynatrace-activegate-subnet0"]
+}
+
+moved {
+  from = module.nsg.azurerm_subnet_network_security_group_association.subnet_association["dynatrace-activegate-subnet-1-prod"]
+  to   = module.networking.azurerm_subnet_network_security_group_association.this["nsg-dynatrace-activegate-subnet1"]
+}
+
+moved {
   from = azurerm_subnet_route_table_association.subnet_00
   to   = module.networking.azurerm_subnet_route_table_association.this["rt-dynatrace-activegate-subnet0"]
 }
