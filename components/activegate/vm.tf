@@ -30,6 +30,12 @@ data "azurerm_key_vault_secret" "ssh_public_key" {
   key_vault_id = data.azurerm_key_vault.subscription_vault.id
 }
 
+data "azurerm_key_vault_secret" "public_storage_key" {
+  provider     = azurerm.ptl
+  name         = "storage-account-key"
+  key_vault_id = data.azurerm_key_vault.subscription_vault.id
+}
+
 data "azurerm_storage_account" "dynatrace_plugin_storage" {
   provider            = azurerm.ptl
   name                = var.storage_account
