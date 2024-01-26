@@ -52,7 +52,7 @@ data "template_file" "cloudconfig" {
     network_zone             = var.network_zone
     plugin_storage_account   = data.azurerm_storage_account.dynatrace_plugin_storage.name
     plugin_storage_container = var.storage_container
-    plugin_storage_key       = data.azurerm_storage_account.dynatrace_plugin_storage.primary_access_key
+    plugin_storage_key       = data.azurerm_key_vault_secret.public_storage_key.value
     dynatrace_plugins        = join(" ", var.dynatrace_plugins)
   }
 }
