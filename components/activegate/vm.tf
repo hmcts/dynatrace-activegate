@@ -135,6 +135,16 @@ resource "azurerm_linux_virtual_machine_scale_set" "main" {
   tags = module.ctags.common_tags
 }
 
+resource "azurerm_virtual_machine_scale_set_extension" "azuread_login" {
+  for_each                     = var.vm_scale_sets
+  name                         = "AADLoginForLinux"
+  virtual_machine_scale_set_id = azurerm_linux_virtual_machine_scale_set.main[each.key].id
+  publisher                    = "Microsoft.Azure.ActiveDirectory.LinuxSSH"
+  type                         = "AADLoginForLinux"
+  type_handler_version         = "1.0"
+  auto_upgrade_minor_version   = true
+}
+
 module "splunk-uf" {
   for_each = { for k, v in var.vm_scale_sets : k => v if v.add_splunk == true }
 
