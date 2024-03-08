@@ -141,7 +141,7 @@ resource "azurerm_virtual_machine_scale_set_extension" "azuread_login" {
   virtual_machine_scale_set_id = azurerm_linux_virtual_machine_scale_set.main[each.key].id
   publisher                    = "Microsoft.Azure.ActiveDirectory"
   type                         = "AADSSHLoginForLinux"
-  type_handler_version         = "2.0"
+  type_handler_version         = "1.0"
   auto_upgrade_minor_version   = true
 }
 
