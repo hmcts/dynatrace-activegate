@@ -16,14 +16,12 @@ data "azurerm_role_definition" "virtual_machine_user" {
 }
 
 resource "azurerm_role_assignment" "virtual_machine_admin" {
-  name               = "Virtual Machine Administrator Login"
   scope              = azurerm_resource_group.rg.id
   role_definition_id = data.azurerm_role_definition.virtual_machine_admin.role_definition_id
   principal_id       = data.azuread_group.admin_access.id
 }
 
 resource "azurerm_role_assignment" "virtual_machine_user" {
-  name               = "Virtual Machine User Login"
   scope              = azurerm_resource_group.rg.id
   role_definition_id = data.azurerm_role_definition.virtual_machine_user.role_definition_id
   principal_id       = data.azuread_group.user_access.id
