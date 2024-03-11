@@ -8,6 +8,11 @@ terraform {
       version               = "3.88.0"
       configuration_aliases = [azurerm.law, azurerm.soc]
     }
+
+    azuread = {
+      source  = "hashicorp/azurerm"
+      version = "2.47"
+    }
   }
 }
 
