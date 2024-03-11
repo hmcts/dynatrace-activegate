@@ -3,7 +3,7 @@ data "azuread_group" "admin_access" {
   security_enabled = true
 }
 data "azuread_group" "user_access" {
-  display_name     =  var.env == prod ? "DTS Production Dynatrace ActiveGate Access for Users" : "DTS Non-Production Dynatrace ActiveGate Access for Users"
+  display_name     = var.env == prod ? "DTS Production Dynatrace ActiveGate Access for Users" : "DTS Non-Production Dynatrace ActiveGate Access for Users"
   security_enabled = true
 }
 
