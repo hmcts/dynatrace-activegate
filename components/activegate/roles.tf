@@ -1,9 +1,9 @@
 data "azuread_group" "admin_access" {
-  display_name     = var.env == prod ? "DTS Production Dynatrace ActiveGate Access for Administrators" : "DTS Non-Production Dynatrace ActiveGate Access for Administrators"
+  display_name     = var.env == "prod" ? "DTS Production Dynatrace ActiveGate Access for Administrators" : "DTS Non-Production Dynatrace ActiveGate Access for Administrators"
   security_enabled = true
 }
 data "azuread_group" "user_access" {
-  display_name     = var.env == prod ? "DTS Production Dynatrace ActiveGate Access for Users" : "DTS Non-Production Dynatrace ActiveGate Access for Users"
+  display_name     = var.env == "prod" ? "DTS Production Dynatrace ActiveGate Access for Users" : "DTS Non-Production Dynatrace ActiveGate Access for Users"
   security_enabled = true
 }
 
