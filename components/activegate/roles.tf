@@ -7,13 +7,13 @@
 #   security_enabled = true
 # }
 
-# data "azurerm_role_definition" "virtual_machine_admin" {
-#   name = "Virtual Machine Administrator Login"
-# }
+data "azurerm_role_definition" "virtual_machine_admin" {
+  name = "Virtual Machine Administrator Login"
+}
 
-# data "azurerm_role_definition" "virtual_machine_user" {
-#   name = "Virtual Machine User Login"
-# }
+data "azurerm_role_definition" "virtual_machine_user" {
+  name = "Virtual Machine User Login"
+}
 
 resource "azurerm_role_assignment" "virtual_machine_admin" {
   scope              = azurerm_resource_group.rg.id
