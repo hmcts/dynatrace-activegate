@@ -50,6 +50,7 @@ data "template_file" "cloudconfig" {
     paas_token               = data.azurerm_key_vault_secret.dynatrace_paas_token.value
     dynatrace_instance_name  = var.dynatrace_instance_name
     network_zone             = var.network_zone
+    group                    = "cft-${var.env}"
     plugin_storage_account   = data.azurerm_storage_account.dynatrace_plugin_storage.name
     plugin_storage_container = var.storage_container
     plugin_storage_key       = data.azurerm_key_vault_secret.public_storage_key.value
