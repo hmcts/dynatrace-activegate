@@ -33,7 +33,7 @@ vm_scale_sets = {
     add_splunk = true
   }
   dynatrace-activegate-test = {
-    instances  = 3
+    instances  = 5
     add_splunk = false
   }
 }
