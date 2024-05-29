@@ -14,6 +14,11 @@ resources:
     ref: refs/heads/DTSPO-17728/infracost-poc
     name: hmcts/cnp-azuredevops-libraries
     endpoint: 'hmcts'
+  - repository: $(Build.Repository.Name)
+    type: github
+    ref: $(System.PullRequest.targetBranchName)
+    name: $(Build.Repository.Name)
+    endpoint: 'hmcts'
 
 variables:
   - name: timeoutInMinutes
@@ -90,3 +95,4 @@ stages:
               serviceConnection: ${{ deployment.service_connection }}
               terraformInitSubscription: ${{ variables.terraformInitSubscription }}
               product: ${{ variables.product }}
+              baseBranch: $(System.PullRequest.targetBranchName)
