@@ -208,7 +208,7 @@ variable "network_zone" {
 
 
 variable "sku" {
-  default = "Standard_D2s_v5"
+  default = "Standard_D2s_v3"
 }
 
 variable "dynatrace_plugins" {
