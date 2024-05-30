@@ -1,4 +1,5 @@
 subscription = "ptl"
+sku = "D2s_v5"
 
 # BFA variables
 mgmt_vnet_name = "core-cftptl-intsvc-vnet"
