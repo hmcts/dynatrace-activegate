@@ -34,6 +34,16 @@ module "networking" {
           next_hop_type          = "VirtualAppliance"
           next_hop_in_ip_address = var.next_hop_in_ip_address
         }
+        cft-aks-sbox = {
+          address_prefix         = "10.2.8.0/21"
+          next_hop_type          = "VirtualAppliance"
+          next_hop_in_ip_address = var.sbox_next_hop_in_ip_address
+        }
+        cft-aks-ptlsbox = {
+          address_prefix         = "10.70.24.0/21"
+          next_hop_type          = "VirtualAppliance"
+          next_hop_in_ip_address = var.sbox_next_hop_in_ip_address
+        }
       }
     }
   }
