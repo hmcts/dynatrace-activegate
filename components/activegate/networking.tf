@@ -49,8 +49,7 @@ module "networking" {
   }
 }
 
-
-resource "azurerm_routes" "additional_routes" {
+resource "azurerm_routes" "additional_routes_cft_aks_sbox" {
   name                   = "cft-aks-sbox"
   resource_group_name    = azurerm_resource_group.rg.name
   route_table_name       = module.networking.route_tables.rt.name
@@ -59,7 +58,7 @@ resource "azurerm_routes" "additional_routes" {
   next_hop_in_ip_address = var.sbox_next_hop_in_ip_address
 }
 
-resource "azurerm_routes" "additional_routes" {
+resource "azurerm_routes" "additional_routes_cft_aks_ptlsbox" {
   name                   = "cft-aks-ptlsbox"
   resource_group_name    = azurerm_resource_group.rg.name
   route_table_name       = module.networking.route_tables.rt.name
