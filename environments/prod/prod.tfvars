@@ -31,3 +31,21 @@ vm_scale_sets = {
     add_splunk = true
   }
 }
+
+additional_routes = {
+  interrim-hosting = {
+    address_prefix         = "10.23.15.0/24"
+    next_hop_type          = "VirtualAppliance"
+    next_hop_in_ip_address = "10.11.8.37"
+  }
+  cft-aks-sbox = {
+    address_prefix         = "10.2.8.0/21"
+    next_hop_type          = "VirtualAppliance"
+    next_hop_in_ip_address = "10.10.200.36"
+  }
+  cft-aks-ptlsbox = {
+    address_prefix         = "10.70.24.0/21"
+    next_hop_type          = "VirtualAppliance"
+    next_hop_in_ip_address = "10.10.200.36"
+  }
+}
