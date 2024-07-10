@@ -28,13 +28,13 @@ module "networking" {
     rt = {
       subnets       = ["${var.name}-subnet0", "${var.name}-subnet1"]
       name_override = "${var.name}-route-table-${var.env}"
-      routes = {
+      routes = merge(var.additional_routes, {
         default = {
           address_prefix         = "0.0.0.0/0"
           next_hop_type          = "VirtualAppliance"
           next_hop_in_ip_address = var.next_hop_in_ip_address
         }
-      }
+      })
     }
   }
 

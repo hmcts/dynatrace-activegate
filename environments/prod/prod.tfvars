@@ -31,3 +31,11 @@ vm_scale_sets = {
     add_splunk = true
   }
 }
+
+additional_routes = {
+  interrim-hosting = {
+    address_prefix         = "10.23.15.0/24"
+    next_hop_type          = "VirtualAppliance"
+    next_hop_in_ip_address = "10.11.8.37"
+  }
+}
