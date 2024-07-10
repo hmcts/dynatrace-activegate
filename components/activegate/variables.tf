@@ -302,10 +302,6 @@ variable "address_prefix_subnet1" {
 variable "next_hop_in_ip_address" {
 }
 
-variable "sbox_next_hop_in_ip_address" {
-  default = "10.10.200.36"
-}
-
 variable "additional_routes" {
   type = map(object({
     address_prefix         = string
