@@ -324,7 +324,6 @@ variable "run_xdr_collector" {
 variable "run_xdr_agent" {
   type    = bool
   default = false
-
 }
 
 variable "cnp_vault_sub" {
