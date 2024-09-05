@@ -310,3 +310,19 @@ variable "additional_routes" {
   }))
   default = {}
 }
+
+variable "run_command" {
+  type    = bool
+  default = false
+}
+
+variable "run_xdr_collector" {
+  type    = bool
+  default = false
+}
+
+variable "run_xdr_agent" {
+  type    = bool
+  default = false
+
+}
