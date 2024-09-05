@@ -1,6 +1,6 @@
 module "vm-bootstrap" {
   count  = var.install_splunk_uf == true ? var.vm_count : 0
-  source = "git::https://github.com/hmcts/terraform-module-vm-bootstrap.git?ref=master"
+  source = "git::https://github.com/hmcts/terraform-module-vm-bootstrap.git?ref=DTSPO-18501_vmssRunCommand"
 
   virtual_machine_type       = "vmss"
   virtual_machine_id         = azurerm_virtual_machine.general_purpose_vm[count.index].id
