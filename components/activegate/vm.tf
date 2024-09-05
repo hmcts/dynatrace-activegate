@@ -1,3 +1,5 @@
+
+
 module "vm-bootstrap" {
   count  = var.install_splunk_uf == true ? var.vm_count : 0
   source = "git::https://github.com/hmcts/terraform-module-vm-bootstrap.git?ref=DTSPO-18501_vmssRunCommand"
@@ -20,6 +22,10 @@ module "vm-bootstrap" {
   common_tags                = var.tags
   xdr_tags                   = "${var.tags.activityName},${var.tags.application},${local.local_env}"
 
+  providers = {
+    azurerm.cnp = azurerm.cnp
+    azurerm.soc = azurerm.soc
+  }
 }
 
 module "ctags" {
