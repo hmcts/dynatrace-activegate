@@ -20,10 +20,6 @@ module "vm-bootstrap" {
   common_tags                = var.tags
   xdr_tags                   = "${var.tags.activityName},${var.tags.application},${local.local_env}"
 
-  providers = {
-    azurerm.cnp = azurerm.cnp
-    azurerm.soc = azurerm.soc
-  }
 }
 
 module "ctags" {
