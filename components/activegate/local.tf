@@ -36,7 +36,7 @@ locals {
   admin_group = var.env == "prod" ? "6b8ec7d6-93d8-488d-a4b6-62d499b76d19" : "03ebd192-f929-4c52-bbc8-266ec80d3353"
   user_group  = var.env == "prod" ? "26bf2be7-0e5b-442a-9e7b-a1aeddac9803" : "cc7c7005-4284-4af7-8c05-cb4a3b2abd53"
 
-  os_type = var.os_type == null ? substr(var.vm_publisher_name, 0, 9) == "Microsoft" ? "Windows" : "Linux" : var.os_type
+  os_type = var.os_type == null ? substr(var.publisher, 0, 9) == "Microsoft" ? "Windows" : "Linux" : var.os_type
 
   local_env = (var.common_tags.environment == "development" || var.common_tags.environment == "staging" || var.common_tags.environment == "testing" || var.common_tags.environment == "sandbox" || var.common_tags.environment == "demo" || var.common_tags.environment == "ithc") ? "nonprod" : "production"
 }

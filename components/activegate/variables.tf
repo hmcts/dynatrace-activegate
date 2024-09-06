@@ -346,9 +346,6 @@ variable "vm_count" {
   default = "0"
 }
 
-variable "vm_publisher_name" {
-}
-
 variable "os_type" {
   default = null
 }
