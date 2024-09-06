@@ -11,7 +11,7 @@ module "vm-bootstrap" {
   splunk_pass4symmkey          = var.splunk_pass4symmkey_secret
   splunk_group                 = "hmcts_forwarders"
   os_type                      = local.os_type
-  env                          = var.environment == "NLE" ? "nonprod" : var.environment
+  env                          = var.env
   install_dynatrace_oneagent   = false
   install_azure_monitor        = false
   run_command                  = var.run_command
