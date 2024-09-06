@@ -19,8 +19,8 @@ module "vm-bootstrap" {
   run_command_sa_key           = var.run_command_sa_key
   run_xdr_collector            = var.run_xdr_collector
   run_xdr_agent                = var.run_xdr_agent
-  common_tags                  = var.tags
-  xdr_tags                     = "${var.tags.activityName},${var.tags.application},${local.local_env}"
+  common_tags                  = var.common_tags
+  xdr_tags                     = "${var.common_tags.activityName},${var.common_tags.application},${local.local_env}"
 
   providers = {
     azurerm.cnp = azurerm.cnp
@@ -29,7 +29,7 @@ module "vm-bootstrap" {
 }
 
 module "ctags" {
-  source       = "git::https://github.com/hmcts/terraform-module-common-tags.git?ref=master"
+  source       = "git::https://github.com/hmcts/terraform-module-common-common_tags.git?ref=master"
   environment  = var.env
   product      = var.product
   builtFrom    = var.builtFrom
@@ -177,7 +177,7 @@ resource "azurerm_linux_virtual_machine_scale_set" "main" {
     type = "SystemAssigned"
   }
 
-  tags = module.ctags.common_tags
+  common_tags = module.ctags.common_tags
 }
 
 resource "azurerm_virtual_machine_scale_set_extension" "azuread_login" {
