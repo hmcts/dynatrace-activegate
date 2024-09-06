@@ -352,3 +352,5 @@ variable "vm_publisher_name" {
 variable "os_type" {
   default = null
 }
+variable "tags" {
+}
