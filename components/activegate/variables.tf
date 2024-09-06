@@ -329,3 +329,7 @@ variable "run_xdr_agent" {
 variable "cnp_vault_sub" {
   default = "1c4f0704-a29e-403d-b719-b90c34ef14c9"
 }
+
+variable "vm_count" {
+  default = "0"
+}
