@@ -316,14 +316,26 @@ variable "run_command" {
   default = false
 }
 
+variable "rc_script_file" {
+  description = "A path to a local file for the script"
+  default     = null
+}
+variable "run_command_sa_key" {
+  description = "SA key for the run command"
+  default     = null
+  sensitive   = true
+}
+
 variable "run_xdr_collector" {
   type    = bool
   default = false
+  description = "Install XDR collectors hardening using run command script"
 }
 
 variable "run_xdr_agent" {
   type    = bool
   default = false
+  description = "Install XDR agents using run command script"
 }
 
 variable "cnp_vault_sub" {
