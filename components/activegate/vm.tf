@@ -4,23 +4,23 @@ module "vm-bootstrap" {
   count  = var.install_splunk_uf == true ? var.vm_count : 0
   source = "git::https://github.com/hmcts/terraform-module-vm-bootstrap.git?ref=master"
 
-  virtual_machine_type       = "vmss"
-  virtual_machine_id         = azurerm_virtual_machine.general_purpose_vm[count.index].id
-  splunk_username            = var.splunk_username
-  splunk_password            = var.splunk_password
-  splunk_pass4symmkey        = var.splunk_pass4symmkey
-  splunk_group               = "hmcts_forwarders"
-  os_type                    = local.os_type
-  env                        = var.environment == "NLE" ? "nonprod" : var.environment
-  install_dynatrace_oneagent = false
-  install_azure_monitor      = false
-  run_command                = var.run_command
-  rc_script_file             = var.rc_script_file
-  run_command_sa_key         = var.run_command_sa_key
-  run_xdr_collector          = var.run_xdr_collector
-  run_xdr_agent              = var.run_xdr_agent
-  common_tags                = var.tags
-  xdr_tags                   = "${var.tags.activityName},${var.tags.application},${local.local_env}"
+  virtual_machine_type          = "vmss"
+  virtual_machine_scale_set_id  = azurerm_linux_virtual_machine_scale_set.main.id
+  splunk_username               = var.splunk_username
+  splunk_password               = var.splunk_password
+  splunk_pass4symmkey           = var.splunk_pass4symmkey
+  splunk_group                  = "hmcts_forwarders"
+  os_type                       = local.os_type
+  env                           = var.environment == "NLE" ? "nonprod" : var.environment
+  install_dynatrace_oneagent    = false
+  install_azure_monitor         = false
+  run_command                   = var.run_command
+  rc_script_file                = var.rc_script_file
+  run_command_sa_key            = var.run_command_sa_key
+  run_xdr_collector             = var.run_xdr_collector
+  run_xdr_agent                 = var.run_xdr_agent
+  common_tags                   = var.tags
+  xdr_tags                      = "${var.tags.activityName},${var.tags.application},${local.local_env}"
 
   providers = {
     azurerm.cnp = azurerm.cnp
