@@ -327,14 +327,14 @@ variable "run_command_sa_key" {
 }
 
 variable "run_xdr_collector" {
-  type    = bool
-  default = false
+  type        = bool
+  default     = false
   description = "Install XDR collectors hardening using run command script"
 }
 
 variable "run_xdr_agent" {
-  type    = bool
-  default = false
+  type        = bool
+  default     = false
   description = "Install XDR agents using run command script"
 }
 
