@@ -38,5 +38,5 @@ locals {
 
   os_type = var.os_type == null ? substr(var.publisher, 0, 9) == "Microsoft" ? "Windows" : "Linux" : var.os_type
 
-  local_env = (var.common_tags.environment == "development" || var.common_tags.environment == "staging" || var.common_tags.environment == "testing" || var.common_tags.environment == "sandbox" || var.common_tags.environment == "demo" || var.common_tags.environment == "ithc") ? "nonprod" : "production"
+  local_env = (module.ctags.common_tags.environment == "development" || module.ctags.common_tags.environment == "staging" || module.ctags.common_tags.environment == "testing" || module.ctags.common_tags.environment == "sandbox" || module.ctags.common_tags.environment == "demo" || module.ctags.common_tags.environment == "ithc") ? "nonprod" : "production"
 }
