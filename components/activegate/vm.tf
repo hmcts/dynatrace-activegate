@@ -29,7 +29,7 @@ module "vm-bootstrap" {
 }
 
 module "ctags" {
-  source       = "git::https://github.com/hmcts/terraform-module-common-common_tags.git?ref=master"
+  source       = "git::https://github.com/hmcts/terraform-module-common-tags.git?ref=master"
   environment  = var.env
   product      = var.product
   builtFrom    = var.builtFrom
