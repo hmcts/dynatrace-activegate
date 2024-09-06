@@ -43,7 +43,7 @@ data "azurerm_storage_account" "xdr_storage" {
 }
 
 output "XDR_TAGS" {
-  value = module.vm-bootstrap.XDR_TAGS
+  value = module.vm-bootstrap[0].XDR_TAGS
 }
 
 locals {
