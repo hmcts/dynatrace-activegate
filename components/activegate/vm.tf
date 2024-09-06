@@ -177,7 +177,7 @@ resource "azurerm_linux_virtual_machine_scale_set" "main" {
     type = "SystemAssigned"
   }
 
-  common_tags = module.ctags.common_tags
+  tags = module.ctags.common_tags
 }
 
 resource "azurerm_virtual_machine_scale_set_extension" "azuread_login" {
