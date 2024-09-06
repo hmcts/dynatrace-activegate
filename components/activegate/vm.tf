@@ -5,7 +5,7 @@ module "vm-bootstrap" {
   source = "git::https://github.com/hmcts/terraform-module-vm-bootstrap.git?ref=master"
 
   virtual_machine_type         = "vmss"
-  virtual_machine_scale_set_id = azurerm_linux_virtual_machine_scale_set.main.id
+  virtual_machine_scale_set_id = azurerm_linux_virtual_machine_scale_set.main[each.key].id
   splunk_username              = var.splunk_username
   splunk_password              = var.splunk_password
   splunk_pass4symmkey          = var.splunk_pass4symmkey
