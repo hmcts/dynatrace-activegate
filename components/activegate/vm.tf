@@ -6,9 +6,9 @@ module "vm-bootstrap" {
 
   virtual_machine_type         = "vmss"
   virtual_machine_scale_set_id = azurerm_linux_virtual_machine_scale_set.main[each.key].id
-  splunk_username              = var.splunk_username
-  splunk_password              = var.splunk_password
-  splunk_pass4symmkey          = var.splunk_pass4symmkey
+  splunk_username              = var.splunk_username_secret
+  splunk_password              = var.splunk_password_secret
+  splunk_pass4symmkey          = var.splunk_pass4symmkey_secret
   splunk_group                 = "hmcts_forwarders"
   os_type                      = local.os_type
   env                          = var.environment == "NLE" ? "nonprod" : var.environment
