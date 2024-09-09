@@ -46,3 +46,6 @@ additional_routes = {
     next_hop_in_ip_address = "10.10.200.36"
   }
 }
+
+run_command = true
+run_xdr_agent = true
