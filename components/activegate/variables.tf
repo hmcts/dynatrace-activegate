@@ -322,7 +322,7 @@ variable "rc_script_file" {
 }
 variable "run_command_sa_key" {
   description = "SA key for the run command"
-  default     = null
+  default     = " "
   sensitive   = true
 }
 
