@@ -42,10 +42,6 @@ data "azurerm_storage_account" "xdr_storage" {
   resource_group_name = "core-infra-intsvc-rg"
 }
 
-output "XDR_TAGS" {
-  value = module.vm-bootstrap[0].xdr_tags
-}
-
 locals {
   prefix      = var.config_file_name == "cloudconfig-private" ? "activegate-private-${var.env}" : "activegate-${var.env}"
   environment = var.env == "prod" ? "ptl" : "${var.env}"
