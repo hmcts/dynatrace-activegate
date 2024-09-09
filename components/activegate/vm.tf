@@ -6,6 +6,7 @@ module "vm-bootstrap" {
 
   virtual_machine_type         = "vmss"
   virtual_machine_scale_set_id = azurerm_linux_virtual_machine_scale_set.main[each.key].id
+  install_splunk_uf            = var.install_splunk_uf
   splunk_username              = var.splunk_username_secret
   splunk_password              = var.splunk_password_secret
   splunk_pass4symmkey          = var.splunk_pass4symmkey_secret
@@ -21,7 +22,7 @@ module "vm-bootstrap" {
   run_xdr_agent                = var.run_xdr_agent
   common_tags                  = module.ctags.common_tags
   xdr_tags                     = "Dynatrace,${local.local_env}"
-
+  install_nessus_agent         = var.install_nessus_agent
 
   providers = {
     azurerm.cnp = azurerm.cnp
