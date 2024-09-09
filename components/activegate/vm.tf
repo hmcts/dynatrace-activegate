@@ -1,8 +1,8 @@
 
 
 module "vm-bootstrap" {
-  count  = var.install_splunk_uf == true ? 1 : 0
-  source = "git::https://github.com/hmcts/terraform-module-vm-bootstrap.git?ref=master"
+  for_each = var.vm_scale_sets
+  source   = "git::https://github.com/hmcts/terraform-module-vm-bootstrap.git?ref=master"
 
   virtual_machine_type         = "vmss"
   virtual_machine_scale_set_id = azurerm_linux_virtual_machine_scale_set.main[each.key].id
@@ -19,7 +19,7 @@ module "vm-bootstrap" {
   run_command_sa_key           = var.run_command_sa_key
   run_xdr_collector            = var.run_xdr_collector
   run_xdr_agent                = var.run_xdr_agent
-  common_tags                  = var.common_tags
+  common_tags                  = module.ctags.common_tags
   xdr_tags                     = "Dynatrace"
 
   providers = {
