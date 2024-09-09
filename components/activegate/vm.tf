@@ -17,7 +17,7 @@ module "vm-bootstrap" {
   install_azure_monitor        = false
   run_command                  = var.run_command
   rc_script_file               = var.rc_script_file
-  run_command_sa_key           = var.run_command_sa_key
+  run_command_sa_key           = data.azurerm_storage_account.xdr_storage.primary_access_key
   run_xdr_collector            = var.run_xdr_collector
   run_xdr_agent                = var.run_xdr_agent
   common_tags                  = module.ctags.common_tags

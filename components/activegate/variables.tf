@@ -320,11 +320,6 @@ variable "rc_script_file" {
   description = "A path to a local file for the script"
   default     = null
 }
-variable "run_command_sa_key" {
-  description = "SA key for the run command"
-  default     = data.azurerm_storage_account.xdr_storage.primary_access_key
-  sensitive   = true
-}
 
 variable "run_xdr_collector" {
   type        = bool
