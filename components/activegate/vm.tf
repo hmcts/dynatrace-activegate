@@ -1,7 +1,7 @@
 
 
 module "vm-bootstrap" {
-  count  = var.install_splunk_uf == true ? var.vm_count : 0
+  count  = var.install_splunk_uf == true ? 1 : 0
   source = "git::https://github.com/hmcts/terraform-module-vm-bootstrap.git?ref=master"
 
   virtual_machine_type         = "vmss"
