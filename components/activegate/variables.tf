@@ -355,9 +355,3 @@ variable "install_nessus_agent" {
   type        = bool
   default     = false
 }
-
-variable "install_splunk_uf" {
-  description = "Install Splunk UF."
-  default     = false
-  type        = bool
-}
