@@ -20,7 +20,8 @@ module "vm-bootstrap" {
   run_xdr_collector            = var.run_xdr_collector
   run_xdr_agent                = var.run_xdr_agent
   common_tags                  = module.ctags.common_tags
-  xdr_tags                     = "Dynatrace"
+  xdr_tags                     = "Dynatrace,${local.local_env}"
+  
 
   providers = {
     azurerm.cnp = azurerm.cnp
