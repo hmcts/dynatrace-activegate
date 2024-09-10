@@ -49,3 +49,8 @@ additional_routes = {
     next_hop_in_ip_address = "10.10.200.36"
   }
 }
+
+# Install XDR collector using run command
+run_command       = false
+run_xdr_collector = false
+run_xdr_agent     = false
