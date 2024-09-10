@@ -310,3 +310,43 @@ variable "additional_routes" {
   }))
   default = {}
 }
+
+variable "run_command" {
+  type    = bool
+  default = false
+}
+
+variable "rc_script_file" {
+  description = "A path to a local file for the script"
+  default     = null
+}
+
+variable "run_xdr_collector" {
+  type        = bool
+  default     = false
+  description = "Install XDR collectors hardening using run command script"
+}
+
+variable "run_xdr_agent" {
+  type        = bool
+  default     = false
+  description = "Install XDR agents using run command script"
+}
+
+variable "cnp_vault_sub" {
+  default = "1c4f0704-a29e-403d-b719-b90c34ef14c9"
+}
+
+variable "vm_count" {
+  default = "0"
+}
+
+variable "os_type" {
+  default = null
+}
+
+variable "install_nessus_agent" {
+  description = "Install Nessus Agent."
+  type        = bool
+  default     = false
+}

@@ -1,9 +1,47 @@
+
+
+module "vm-bootstrap" {
+  for_each = var.vm_scale_sets
+  source   = "git::https://github.com/hmcts/terraform-module-vm-bootstrap.git?ref=master"
+
+  virtual_machine_type         = "vmss"
+  virtual_machine_scale_set_id = azurerm_linux_virtual_machine_scale_set.main[each.key].id
+  install_splunk_uf            = var.install_splunk_uf
+  splunk_username              = var.splunk_username_secret
+  splunk_password              = var.splunk_password_secret
+  splunk_pass4symmkey          = var.splunk_pass4symmkey_secret
+  splunk_group                 = "hmcts_forwarders"
+  os_type                      = local.os_type
+  env                          = var.env
+  install_dynatrace_oneagent   = false
+  install_azure_monitor        = false
+  run_command                  = var.run_command
+  rc_script_file               = var.rc_script_file
+  run_command_sa_key           = data.azurerm_storage_account.xdr_storage.primary_access_key
+  run_xdr_collector            = var.run_xdr_collector
+  run_xdr_agent                = var.run_xdr_agent
+  common_tags                  = module.ctags.common_tags
+  xdr_tags                     = "Dynatrace,${local.local_env}"
+  install_nessus_agent         = var.install_nessus_agent
+
+  providers = {
+    azurerm.cnp = azurerm.cnp
+    azurerm.soc = azurerm.soc
+  }
+}
+
 module "ctags" {
   source       = "git::https://github.com/hmcts/terraform-module-common-tags.git?ref=master"
   environment  = var.env
   product      = var.product
   builtFrom    = var.builtFrom
   expiresAfter = var.expiresAfter
+}
+
+data "azurerm_storage_account" "xdr_storage" {
+  provider            = azurerm.DTS-CFTPTL-INTSVC
+  name                = "cftptlintsvc"
+  resource_group_name = "core-infra-intsvc-rg"
 }
 
 locals {

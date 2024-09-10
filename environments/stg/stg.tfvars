@@ -13,7 +13,7 @@ dynatrace_instance_name = "yrk32651"
 env                     = "nonprod"
 network_zone            = "azure.cft"
 config_file_name        = "cloudconfig-private"
-install_splunk_uf       = true
+install_splunk_uf       = false
 enable_log_analytics    = true
 
 address_space = "10.10.80.0/24"
@@ -46,3 +46,8 @@ additional_routes = {
     next_hop_in_ip_address = "10.10.200.36"
   }
 }
+
+# Install XDR collector using run command
+run_command       = true
+run_xdr_collector = false
+run_xdr_agent     = true
