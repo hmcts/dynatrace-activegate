@@ -11,7 +11,7 @@ oms_env           = "prod"
 env                  = "prod"
 network_zone         = "azure.cft"
 config_file_name     = "cloudconfig-private"
-install_splunk_uf    = true
+install_splunk_uf    = false
 enable_log_analytics = true
 
 address_space = "10.10.81.0/24"
