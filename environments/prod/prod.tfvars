@@ -24,11 +24,11 @@ next_hop_in_ip_address = "10.11.8.36"
 vm_scale_sets = {
   dynatrace-activegate = {
     instances  = 3
-    add_splunk = true
+    add_splunk = false
   }
   dynatrace-activegate-private = {
     instances  = 2
-    add_splunk = true
+    add_splunk = false
   }
 }
 
