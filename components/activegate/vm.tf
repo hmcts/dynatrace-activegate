@@ -5,7 +5,7 @@ module "vm-bootstrap" {
   source   = "git::https://github.com/hmcts/terraform-module-vm-bootstrap.git?ref=DTSPO-18501_LinuxScriptChanges"
 
   virtual_machine_type         = "vmss"
-  virtual_machine_scale_set_id = azurerm_linux_virtual_machine_scale_set.main[each.key].id"000001"
+  virtual_machine_scale_set_id = "/subscriptions/b44eb479-9ae2-42e7-9c63-f3c599719b6f/resourceGroups/dynatrace-activegate-nonprod/providers/Microsoft.Compute/virtualMachineScaleSets/dynatrace-activegate-private-nonprod-vmss000001"
   install_splunk_uf            = var.install_splunk_uf
   splunk_username              = var.splunk_username_secret
   splunk_password              = var.splunk_password_secret
