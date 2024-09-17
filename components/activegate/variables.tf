@@ -350,3 +350,9 @@ variable "install_nessus_agent" {
   type        = bool
   default     = false
 }
+
+variable "run_command_type_handler_version" {
+  description = "Type handler version number"
+  type        = string
+  default     = "1.2"
+}
