@@ -51,6 +51,6 @@ additional_routes = {
 }
 
 # Install XDR collector using run command
-run_command       = false
+run_command       = true
 run_xdr_collector = false
-run_xdr_agent     = false
+run_xdr_agent     = true
