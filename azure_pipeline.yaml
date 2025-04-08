@@ -43,7 +43,7 @@ parameters:
     type: object
     default:
     - deployment: 'sbox_dynatrace_activegate'
-      environment: 'sandbox'
+      environment: 'sbox'
       component: 'activegate'
       service_connection: 'DTS-MANAGEMENT-NONPROD-INTSVC'
       storage_account_rg: 'core-infra-intsvc-rg'
