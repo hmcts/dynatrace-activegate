@@ -45,7 +45,7 @@ parameters:
     - deployment: 'sbox_dynatrace_activegate'
       environment: 'sbox'
       component: 'activegate'
-      service_connection: 'DTS-MANAGEMENT-NONPROD-INTSVC'
+      service_connection: 'DTS-MANAGEMENT-SBOX-INTSVC'
       storage_account_rg: 'core-infra-intsvc-rg'
       storage_account_name: 'cftptlintsvc'
       dependsOn: 'Precheck'
