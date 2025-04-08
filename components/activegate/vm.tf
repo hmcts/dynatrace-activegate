@@ -1,5 +1,3 @@
-
-
 module "vm-bootstrap" {
   for_each = var.vm_scale_sets
   source   = "git::https://github.com/hmcts/terraform-module-vm-bootstrap.git?ref=master"
@@ -28,6 +26,7 @@ module "vm-bootstrap" {
   providers = {
     azurerm.cnp = azurerm.cnp
     azurerm.soc = azurerm.soc
+    azurerm.dcr = azurerm.dcr
   }
 }
 
