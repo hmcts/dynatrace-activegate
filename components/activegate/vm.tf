@@ -28,6 +28,7 @@ module "vm-bootstrap" {
   providers = {
     azurerm.cnp = azurerm.cnp
     azurerm.soc = azurerm.soc
+    azurerm.dcr = azurerm.dcr
   }
 }
 
@@ -187,17 +188,4 @@ resource "azurerm_virtual_machine_scale_set_extension" "azuread_login" {
   type                         = "AADSSHLoginForLinux"
   type_handler_version         = "1.0"
   auto_upgrade_minor_version   = true
-}
-
-module "splunk-uf" {
-  for_each = { for k, v in var.vm_scale_sets : k => v if v.add_splunk == true }
-
-  source = "git::https://github.com/hmcts/terraform-module-splunk-universal-forwarder.git?ref=master"
-
-  auto_upgrade_minor_version   = true
-  virtual_machine_type         = "vmss"
-  virtual_machine_scale_set_id = azurerm_linux_virtual_machine_scale_set.main[each.key].id
-  splunk_username              = data.azurerm_key_vault_secret.splunk_username.value
-  splunk_password              = data.azurerm_key_vault_secret.splunk_password.value
-  splunk_pass4symmkey          = data.azurerm_key_vault_secret.splunk_pass4symmkey.value
 }
