@@ -342,7 +342,7 @@ variable "vm_count" {
 }
 
 variable "os_type" {
-  default = null
+  default = "linux"
 }
 
 variable "install_nessus_agent" {
