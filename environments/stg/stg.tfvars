@@ -45,6 +45,11 @@ additional_routes = {
     next_hop_type          = "VirtualAppliance"
     next_hop_in_ip_address = "10.10.200.36"
   }
+  idam-sandbox = {
+    address_prefix         = "10.99.128.0/18"
+    next_hop_type          = "VirtualAppliance"
+    next_hop_in_ip_address = "10.10.200.36"
+  }
 }
 
 # Install XDR collector using run command
