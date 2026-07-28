@@ -29,7 +29,7 @@ vm_scale_sets = {
     add_splunk = false
   }
   dynatrace-activegate-private = {
-    instances  = 2
+    instances  = 3
     add_splunk = false
   }
 }
