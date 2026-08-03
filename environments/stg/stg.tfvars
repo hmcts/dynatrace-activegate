@@ -50,6 +50,11 @@ additional_routes = {
     next_hop_type          = "VirtualAppliance"
     next_hop_in_ip_address = "10.10.200.36"
   }
+  ai-gateway-sbox = {
+    address_prefix         = "10.181.0.0/22"
+    next_hop_type          = "VirtualAppliance"
+    next_hop_in_ip_address = "10.10.200.36"
+  }
 }
 
 # Install XDR collector using run command
