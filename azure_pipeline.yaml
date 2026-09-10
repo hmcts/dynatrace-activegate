@@ -39,6 +39,14 @@ parameters:
     - apply
     - destroy
 
+  - name: targetEnvironment
+    type: string
+    default: all
+    values:
+    - all
+    - stg
+    - prod
+
   - name: environment_components
     type: object
     default:
@@ -74,19 +82,24 @@ stages:
               projectName: ${{ variables.businessArea }}
 
   - ${{ each deployment in parameters.environment_components }}:
-    - stage: ${{ deployment.deployment }}
-      dependsOn: ${{ deployment.dependsOn }}
-      jobs:
-        - job: TerraformPlanApply
-          pool:
-            vmImage: ${{ variables.agentPool }}
-          timeoutInMinutes: ${{ variables.timeoutInMinutes }}
-          steps:
-          - template: steps/terraform.yaml@cnp-azuredevops-libraries
-            parameters:
-              overrideAction: ${{ parameters.overrideAction }}
-              environment: ${{ deployment.environment }}
-              component: ${{ deployment.component }}
-              serviceConnection: ${{ deployment.service_connection }}
-              terraformInitSubscription: ${{ variables.terraformInitSubscription }}
-              product: ${{ variables.product }}
+    - ${{ if or(eq(parameters.targetEnvironment, 'all'), eq(parameters.targetEnvironment, deployment.environment)) }}:
+      - stage: ${{ deployment.deployment }}
+        # if stg was skipped in this run (targetEnvironment=prod), prod can only depend on Precheck
+        ${{ if and(eq(deployment.environment, 'prod'), ne(parameters.targetEnvironment, 'all')) }}:
+          dependsOn: 'Precheck'
+        ${{ else }}:
+          dependsOn: ${{ deployment.dependsOn }}
+        jobs:
+          - job: TerraformPlanApply
+            pool:
+              vmImage: ${{ variables.agentPool }}
+            timeoutInMinutes: ${{ variables.timeoutInMinutes }}
+            steps:
+            - template: steps/terraform.yaml@cnp-azuredevops-libraries
+              parameters:
+                overrideAction: ${{ parameters.overrideAction }}
+                environment: ${{ deployment.environment }}
+                component: ${{ deployment.component }}
+                serviceConnection: ${{ deployment.service_connection }}
+                terraformInitSubscription: ${{ variables.terraformInitSubscription }}
+                product: ${{ variables.product }}
