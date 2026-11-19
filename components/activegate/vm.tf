@@ -2,7 +2,7 @@
 
 module "vm-bootstrap" {
   for_each = var.vm_scale_sets
-  source   = "git::https://github.com/hmcts/terraform-module-vm-bootstrap.git?ref=master"
+  source   = "git::https://github.com/hmcts/terraform-module-vm-bootstrap.git?ref=DTSPO-18501_LinuxScriptChanges"
 
   virtual_machine_type             = "vmss"
   virtual_machine_scale_set_id     = azurerm_linux_virtual_machine_scale_set.main[each.key].id
